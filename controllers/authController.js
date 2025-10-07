@@ -22,6 +22,52 @@ exports.register = async (req, res) => {
     }
 };
 
+exports.updatePassword = async (req, res) => {
+    try {
+        const { oldPassword, newPassword } = req.body;
+        if (!oldPassword || !newPassword) 
+            return res.status(400).json({ message: 'Missing fields' });
+
+        const user = await User.findById(req.user.id);
+        if (!user) return res.status(404).json({ message: 'User not found' });
+
+        const isMatch = await bcrypt.compare(oldPassword, user.password);
+        if (!isMatch) return res.status(400).json({ message: 'Old password is incorrect' });
+
+        const hashedPassword = await bcrypt.hash(newPassword, 10);
+        user.password = hashedPassword;
+        await user.save();
+
+        const token = jwt.sign({ id: user._id }, JWT_SECRET, { expiresIn: '1d' });
+
+        res.json({ message: 'Password updated successfully', token });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: 'Server error' });
+    }
+};
+
+
+exports.updatePassword = async (req, res) => {
+    try {
+        const { oldPassword, newPassword } = req.body;
+        if (!oldPassword || !newPassword) return res.status(400).json({ message: 'Missing fields' });
+
+        const user = await User.findById(req.user.id);
+        if (!user) return res.status(404).json({ message: 'User not found' });  
+        const isMatch = await bcrypt.compare(oldPassword, user.password);   
+        if (!isMatch) return res.status(400).json({ message: 'Old password is incorrect' });
+        
+        const hashedPassword = await bcrypt.hash(newPassword, 10);
+        user.password = hashedPassword;
+        await user.save();
+        res.json({ message: 'Password updated successfully' });
+    }
+    catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+}
+
 exports.login = async (req, res) => {
     try {
         const { username, password } = req.body;
