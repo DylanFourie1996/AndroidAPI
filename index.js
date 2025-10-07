@@ -30,6 +30,7 @@ if (!MONGO_URI) {
     console.error(' MONGO_URI not defined in environment variables');
     process.exit(1);
 }
+//(Borins, et al., [n.d.])
 
 mongoose.connect(MONGO_URI, {
     useNewUrlParser: true,
@@ -41,3 +42,6 @@ mongoose.connect(MONGO_URI, {
 // Start server
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
+
+
+//Borins, M., Lanz, R. and Pieszak, M., Copes, B., Awais, A., Halverson, B., Boström O., [n.d.]. Node.js - Introduction to Node.js. [online] Available at: <https://nodejs.org/en/learn/getting-started/introduction-to-nodejs> [Accessed 07 October 2025].
