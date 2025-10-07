@@ -3,7 +3,7 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
 const JWT_SECRET = process.env.JWT_SECRET || 'supersecret';
-
+//
 exports.register = async (req, res) => {
     try {
         const { username, password } = req.body;
@@ -21,6 +21,7 @@ exports.register = async (req, res) => {
         res.status(500).json({ error: err.message });
     }
 };
+//(Ulili, 2020)
 
 
 exports.updatePassword = async (req, res) => {
@@ -64,3 +65,4 @@ exports.login = async (req, res) => {
         res.status(500).json({ error: err.message });
     }
 };
+//Ulili, S., 2020. Node.js modules: Import and use functions from another file, stanleyulili.com. [blog] 26 March. Available at: <https://www.stanleyulili.com/node/node-modules-import-and-use-functions-from-another-file> [Accessed 07 October 2025]. 
