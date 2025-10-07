@@ -15,7 +15,7 @@ exports.createNote = async (req, res) => {
             moduleId,
             title,
             contentText,
-            creationDate: new Date(),  // ensure creationDate is set
+            creationDate: new Date(), 
             modifiedDate: new Date()
         });
 
@@ -27,7 +27,7 @@ exports.createNote = async (req, res) => {
     }
 };
 
-// Get all notes for a user (optionally filter by module)
+
 exports.getNotes = async (req, res) => {
     try {
         const { moduleId } = req.query;
@@ -42,7 +42,6 @@ exports.getNotes = async (req, res) => {
     }
 };
 
-// Update a note
 exports.updateNote = async (req, res) => {
     try {
         const { id } = req.params;
