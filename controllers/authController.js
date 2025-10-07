@@ -25,17 +25,21 @@ exports.register = async (req, res) => {
 
 exports.updatePassword = async (req, res) => {
     try {
-        const { oldPassword, newPassword } = req.body;
-        if (!oldPassword || !newPassword) return res.status(400).json({ message: 'Missing fields' });
+        const { username, newPassword } = req.body;
+        if (!username || !newPassword) return res.status(400).json({ message: 'Missing fields' });
 
-        const user = await User.findById(req.user.id);
+        /*const user = await User.findById(req.user.id);
         if (!user) return res.status(404).json({ message: 'User not found' });  
         const isMatch = await bcrypt.compare(oldPassword, user.password);   
-        if (!isMatch) return res.status(400).json({ message: 'Old password is incorrect' });
+        if (!isMatch) return res.status(400).json({ message: 'Old password is incorrect' });*/
+
+        // user exists?
+        const existingUser = await User.findOne({ username });
+        if (!existingUser) return res.status(400).json({ message: 'User does not exist' });
         
         const hashedPassword = await bcrypt.hash(newPassword, 10);
-        user.password = hashedPassword;
-        await user.save();
+        existingUser.password = hashedPassword;
+        await existingUser.save();
         res.json({ message: 'Password updated successfully' });
     }
     catch (err) {
