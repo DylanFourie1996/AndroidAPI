@@ -5,7 +5,7 @@ const auth = require('../middleware/auth');
 
 router.post('/', auth, flashCardController.createFlashCard);
 router.get('/', auth, flashCardController.getFlashCards);
-router.put('/:id', auth, flashCardController.updateFlashCard);
-router.delete('/:id', auth, flashCardController.deleteFlashCard);
+router.put('/:id', auth, flashCardController.updateFlashCard); // added :id
+router.delete('/:id', auth, flashCardController.deleteFlashCard); // added :id
 
 module.exports = router;

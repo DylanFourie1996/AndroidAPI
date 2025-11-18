@@ -41,7 +41,7 @@ mongoose.connect(MONGO_URI, {
 
 // Start server
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
+app.listen(PORT, () => console.log(` Server running on port ${PORT}`));
 
 
 //Borins, M., Lanz, R. and Pieszak, M., Copes, B., Awais, A., Halverson, B., Boström O., [n.d.]. Node.js - Introduction to Node.js. [online] Available at: <https://nodejs.org/en/learn/getting-started/introduction-to-nodejs> [Accessed 07 October 2025].
