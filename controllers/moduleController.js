@@ -3,14 +3,11 @@ const Module = require('../models/Module');
 // Create a module
 exports.createModule = async (req, res) => {
     try {
-        const { moduleName } = req.body;
-        if (!moduleName) return res.status(400).json({ message: 'Module name required' });
+        const { userId, moduleName } = req.body;
+        if (!userId || !moduleName)
+            return res.status(400).json({ message: 'userId and moduleName required' });
 
-        const newModule = new Module({
-            userId: req.user.id,
-            moduleName
-        });
-
+        const newModule = new Module({ userId, moduleName });
         await newModule.save();
         res.status(201).json(newModule);
     } catch (err) {
@@ -18,41 +15,40 @@ exports.createModule = async (req, res) => {
     }
 };
 
-// Get all modules for logged-in user
+// Get all modules for a user
 exports.getModules = async (req, res) => {
     try {
-        const modules = await Module.find({ userId: req.user.id });
+        const { userId } = req.query;
+        if (!userId) return res.status(400).json({ message: 'userId required' });
+
+        const modules = await Module.find({ userId });
         res.json(modules);
     } catch (err) {
         res.status(500).json({ error: err.message });
     }
 };
 
-// Update a module
+// Update module by ID
 exports.updateModule = async (req, res) => {
     try {
         const { id } = req.params;
         const { moduleName } = req.body;
 
-        const module = await Module.findOneAndUpdate(
-            { _id: id, userId: req.user.id },
-            { moduleName },
-            { new: true }
-        );
-
+        const module = await Module.findByIdAndUpdate(id, { moduleName }, { new: true });
         if (!module) return res.status(404).json({ message: 'Module not found' });
+
         res.json(module);
     } catch (err) {
         res.status(500).json({ error: err.message });
     }
 };
 
-// Delete a module
+// Delete module by ID
 exports.deleteModule = async (req, res) => {
     try {
         const { id } = req.params;
 
-        const module = await Module.findOneAndDelete({ _id: id, userId: req.user.id });
+        const module = await Module.findByIdAndDelete(id);
         if (!module) return res.status(404).json({ message: 'Module not found' });
 
         res.json({ message: 'Module deleted' });
