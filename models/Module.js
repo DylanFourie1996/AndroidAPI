@@ -1,12 +1,8 @@
-const express = require('express');
-const router = express.Router();
-const moduleController = require('../controllers/moduleController');
-const auth = require('../middleware/auth'); // optional if you want auth
+const mongoose = require('mongoose');
 
-// Routes
-router.post('/', moduleController.createModule);
-router.get('/', moduleController.getModules);
-router.put('/:id', moduleController.updateModule);
-router.delete('/:id', moduleController.deleteModule);
+const moduleSchema = new mongoose.Schema({
+  userId: { type: String, required: true },
+  moduleName: { type: String, required: true },
+}, { timestamps: true });
 
-module.exports = router;
+module.exports = mongoose.model('Module', moduleSchema);
