@@ -22,6 +22,20 @@ exports.createFlashCard = async (req, res) => {
     }
 };
 
+exports.createModule = async (req, res) => {
+  try {
+    const { userId, moduleName } = req.body;
+    if (!userId || !moduleName)
+      return res.status(400).json({ message: 'userId and moduleName required' });
+
+    const newModule = new Module({ userId, moduleName });
+    await newModule.save();
+    res.status(201).json(newModule);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
 // Get all flashcards for a user (optionally by module)
 exports.getFlashCards = async (req, res) => {
     try {
